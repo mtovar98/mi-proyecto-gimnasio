@@ -11,7 +11,7 @@ const Admin = () => {
     fecha_pago_final: '',
     valor_pago: '',
     descripcion: '',
-    estado: 'al dia',
+    estado: '',
     fecha_ultimo_pago: ''
   });
   const [editMode, setEditMode] = useState(false);
