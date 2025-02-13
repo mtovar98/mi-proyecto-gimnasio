@@ -114,16 +114,23 @@ const Admin = () => {
 
   if (!authenticated) {
     return (
-      <div>
-        <div>
-          <h1>Acceso al Panel Administrativo</h1>
-          <input
-            type="password"
-            placeholder="Ingrese la contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button onClick={handleAuth}>Ingresar</button>
+      <div className='flex justify-center items-center h-screen h-screen w-full'>
+        
+          {/*contendor de la tarjeta */}
+        <div className='bg-black/70 p-8 rounded-lg shadow-lg w-full max-w-lg border-2 border-red-500'>
+          <h1 className='text-white text-3xl font-semibold text-center mb-6'>Acceso al Panel Administrativo</h1>
+          
+            {/*campo de busqueda */}
+          <div className='mb-4'>
+            <input
+              type="password"
+              placeholder="Ingrese la contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className='w-full p-3 border bg-gray-300 text-black border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700'
+            />
+          </div>
+            <button onClick={handleAuth} className="w-1/2 mx-auto block p-2 bg-red-500/80 text-white font-semibold rounded-lg hover:bg-red-600 transition duration-200">Ingresar</button>
         </div>
       </div>
     );

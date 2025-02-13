@@ -23,7 +23,7 @@ const Home = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-cover bg-center" style={{ backgroundImage: 'url("/ruta/de/tu/imagen.jpg")' }}>
+        <div className="flex justify-center items-center h-screen h-screen w-full overflow-hidden">
             {/* Contenedor de la tarjeta */}
             <div className="bg-black/60 p-8 rounded-lg shadow-lg w-full max-w-lg border-2 border-red-500">
                 <h1 className="text-3xl font-semibold text-center text-white mb-6">Consulta de Clientes</h1>
