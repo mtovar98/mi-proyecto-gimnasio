@@ -114,15 +114,17 @@ const Admin = () => {
 
   if (!authenticated) {
     return (
-      <div style={{ padding: '20px' }}>
-        <h1>Acceso al Panel Administrativo</h1>
-        <input
-          type="password"
-          placeholder="Ingrese la contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button onClick={handleAuth}>Ingresar</button>
+      <div>
+        <div>
+          <h1>Acceso al Panel Administrativo</h1>
+          <input
+            type="password"
+            placeholder="Ingrese la contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button onClick={handleAuth}>Ingresar</button>
+        </div>
       </div>
     );
   }

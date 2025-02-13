@@ -6,8 +6,10 @@ import Admin from './pages/Admin';
 function App() {
   return (
     <Router>
-      <nav>
-        <Link to="/">Inicio</Link> | <Link to="/admin">Panel Administrativo</Link>
+      <nav className="p-4">
+        <Link to="/" className="text-white mx-2 hover:text-gray-300">Inicio</Link>
+        <span className="text-white">|</span>
+        <Link to="/admin" className="text-white mx-2 hover:text-gray-300">Panel Administrativo</Link>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -16,6 +18,5 @@ function App() {
     </Router>
   );
 }
-
 
 export default App;
