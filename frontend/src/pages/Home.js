@@ -23,7 +23,7 @@ const Home = () => {
     };
 
     return (
-        <div className="flex justify-center items-center h-screen h-screen w-full overflow-hidden">
+        <div className="flex justify-center items-center max-h-screen w-full overflow-hidden mt-35">
             {/* Contenedor de la tarjeta */}
             <div className="bg-black/60 p-8 rounded-lg shadow-lg w-full max-w-lg border-2 border-red-500">
                 <h1 className="text-3xl font-semibold text-center text-white mb-6">Consulta de Clientes</h1>
@@ -42,7 +42,7 @@ const Home = () => {
                 {/* Botón de búsqueda */}
                 <button
                     onClick={buscarCliente}
-                    className="w-full p-3 bg-red-500/80 text-white font-semibold rounded-lg hover:bg-red-600 transition duration-200"
+                    className="w-1/2 mx-auto block p-3 bg-red-500/80 text-white font-semibold rounded-lg hover:bg-red-600 transition duration-200"
                 >
                     Buscar
                 </button>

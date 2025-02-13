@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const Admin = () => {
   const [clientes, setClientes] = useState([]);
+  const [filtro, setFiltro] = useState('');
   const [form, setForm] = useState({
     nombre: '',
     cedula: '',
@@ -30,6 +31,10 @@ const Admin = () => {
       alert('Contraseña incorrecta');
     }
   };
+
+  const clientesFiltrados = clientes.filter(cliente =>
+    cliente.cedula.includes(filtro)
+  );
 
   const obtenerClientes = async () => {
     try {
@@ -114,7 +119,7 @@ const Admin = () => {
 
   if (!authenticated) {
     return (
-      <div className='flex justify-center items-center h-screen h-screen w-full'>
+      <div className='flex justify-center items-center max-h-screen w-full mt-40'>
         
           {/*contendor de la tarjeta */}
         <div className='bg-black/70 p-8 rounded-lg shadow-lg w-full max-w-lg border-2 border-red-500'>
@@ -137,36 +142,85 @@ const Admin = () => {
   }
 
   return (
-    <div style={{ padding: '20px'}}>
-      <h1>Panel Administrativo</h1>
+    <div className="flex justify-center items-center max-h-screen w-full overflow-hidden">
+        
+        <div className="grid grid-cols-2 gap-5 w-full max-w-6xl">
+            {/* Contenedor del Panel Administrativo */}
+            <div className="bg-black/60 p-6 rounded-lg shadow-lg border-2 border-red-500 min-h-[550px]">
+                <h1 className="text-2xl font-semibold text-center text-white mb-4">Panel Administrativo</h1>
 
-      <form style={{ display: 'flex', flexDirection: 'column', maxWidth: '300px' }}>
-        <input type="text" name="nombre" placeholder="Nombre" value={form.nombre} onChange={handleChange} />
-        <input type="text" name="cedula" placeholder="Cédula" value={form.cedula} onChange={handleChange} disabled={editMode} />
-        <input type="text" name="contacto" placeholder="Contacto" value={form.contacto} onChange={handleChange} />
-        <input type="date" name="fecha_pago_inicio" value={form.fecha_pago_inicio} onChange={handleChange} />
-        <input type="date" name="fecha_pago_final" value={form.fecha_pago_final} onChange={handleChange} />
-        <input type="number" name="valor_pago" placeholder="Valor de Pago" value={form.valor_pago} onChange={handleChange} />
-        <textarea name="descripcion" placeholder="Descripción" value={form.descripcion} onChange={handleChange}></textarea>
-        <input type="date" name="fecha_ultimo_pago" value={form.fecha_ultimo_pago} onChange={handleChange} readOnly />
+                {/* Formulario */}
+                <form className="flex w-full mx-auto block  flex-col space-y-3">
+                    <input type="text" name="nombre" placeholder="Nombre" value={form.nombre} onChange={handleChange} 
+                           className="p-2 bg-gray-300 text-black border border-black rounded-lg focus:ring-2 focus:ring-gray-700" />
 
-        {editMode ? (
-          <button type="button" onClick={actualizarCliente}>Actualizar Cliente</button>
-        ) : (
-          <button type="button" onClick={agregarCliente}>Agregar Cliente</button>
-        )}
-      </form>
+                    <input type="text" name="cedula" placeholder="Cédula" value={form.cedula} onChange={handleChange} disabled={editMode}
+                           className="p-2 bg-gray-300 text-black border border-black rounded-lg focus:ring-2 focus:ring-gray-700" />
 
-      <h2>Lista de Clientes</h2>
-      <ul>
-        {clientes.map((cliente) => (
-          <li key={cliente.cedula}>
-            {cliente.nombre} - {cliente.cedula} - {cliente.estado} - {cliente.fecha_pago_inicio} - {cliente.valor_pago} - {cliente.descripcion}
-            <button onClick={() => editarCliente(cliente)}>Editar</button>
-            <button onClick={() => eliminarCliente(cliente.cedula)}>Eliminar</button>
-          </li>
-        ))}
-      </ul>
+                    <input type="text" name="contacto" placeholder="Contacto" value={form.contacto} onChange={handleChange} 
+                           className="p-2 bg-gray-300 text-black border border-black rounded-lg focus:ring-2 focus:ring-gray-700" />
+
+                    <input type="date" name="fecha_pago_inicio" value={form.fecha_pago_inicio} onChange={handleChange}
+                           className="p-2 bg-gray-300 text-black border border-black rounded-lg" />
+
+                    <input type="date" name="fecha_pago_final" value={form.fecha_pago_final} onChange={handleChange}
+                           className="p-2 bg-gray-300 text-black border border-black rounded-lg" />
+
+                    <input type="number" name="valor_pago" placeholder="Valor de Pago" value={form.valor_pago} onChange={handleChange}
+                           className="p-2 bg-gray-300 text-black border border-black rounded-lg" />
+
+                    <textarea name="descripcion" placeholder="Descripción" value={form.descripcion} onChange={handleChange}
+                              className="p-2 bg-gray-300 text-black border border-black rounded-lg"></textarea>
+
+                    <input type="date" name="fecha_ultimo_pago" value={form.fecha_ultimo_pago} onChange={handleChange} readOnly
+                           className="p-2 bg-gray-300 text-black border border-black rounded-lg" />
+
+                    {/* Botón */}
+                    {editMode ? (
+                        <button type="button" onClick={actualizarCliente} 
+                                className="p-2 bg-blue-500/80 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-200">
+                            Actualizar Cliente
+                        </button>
+                    ) : (
+                        <button type="button" onClick={agregarCliente} 
+                                className="p-2 bg-green-500/80 text-white font-semibold rounded-lg hover:bg-green-600 transition duration-200">
+                            Agregar Cliente
+                        </button>
+                    )}
+                </form>
+            </div>
+
+            {/* Contenedor de Lista de Clientes */}
+            <div className="bg-black/60 p-6 rounded-lg shadow-lg border-2 border-red-500 min-h-[550px] flex flex-col">
+                <h2 className="text-2xl text-white font-semibold text-center mb-4">Lista de Clientes</h2>
+
+                {/* Campo de Búsqueda */}
+                <input type="text" placeholder="Buscar por Cédula" onChange={(e) => setFiltro(e.target.value)} 
+                       className="p-2 mb-3 bg-gray-300 text-black border border-black rounded-lg focus:ring-2 focus:ring-gray-700" />
+
+                {/* Lista con Scroll */}
+                <div className="overflow-y-auto flex-grow max-h-[450px] space-y-2 pr-2">
+                    {clientes.filter(cliente => cliente.cedula.includes(filtro)).map((cliente) => (
+                        <div key={cliente.cedula} className="p-3 bg-gray-300/80 rounded-lg flex justify-between items-center">
+                            <div>
+                                <p><strong>{cliente.nombre}</strong> - {cliente.cedula}</p>
+                                <p className="text-sm">Estado: {cliente.estado} | Pago: {cliente.fecha_pago_inicio} | Valor: {cliente.valor_pago}</p>
+                            </div>
+                            <div className="space-x-2">
+                                <button onClick={() => editarCliente(cliente)} 
+                                        className="p-2 bg-yellow-500/80 text-white rounded-lg hover:bg-yellow-600">
+                                    Editar
+                                </button>
+                                <button onClick={() => eliminarCliente(cliente.cedula)} 
+                                        className="p-2 bg-red-500/80 text-white rounded-lg hover:bg-red-600">
+                                    Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
     </div>
   );
 };
