@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const Admin = () => {
   const [clientes, setClientes] = useState([]);
@@ -32,9 +34,23 @@ const Admin = () => {
     }
   };
 
+  const exportarExcel = () => {
+    const hoja = XLSX.utils.json_to_sheet(clientes);
+    const libro = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(libro, hoja, "Clientes");
+  
+    const excelBuffer = XLSX.write(libro, { bookType: "xlsx", type: "array" });
+    const blob = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+  
+    saveAs(blob, "Clientes.xlsx");
+  };
+
+  /* 
   const clientesFiltrados = clientes.filter(cliente =>
     cliente.cedula.includes(filtro)
   );
+  */
+  
 
   const obtenerClientes = async () => {
     try {
@@ -146,7 +162,7 @@ const Admin = () => {
         
         <div className="grid grid-cols-2 gap-5 w-full max-w-6xl">
             {/* Contenedor del Panel Administrativo */}
-            <div className="bg-black/60 p-6 rounded-lg shadow-lg border-2 border-red-500 min-h-[550px]">
+            <div className="bg-black/60 p-6 rounded-lg shadow-lg border-2 border-red-500 max-h-screen">
                 <h1 className="text-2xl font-semibold text-center text-white mb-4">Panel Administrativo</h1>
 
                 {/* Formulario */}
@@ -199,7 +215,7 @@ const Admin = () => {
                        className="p-2 mb-3 bg-gray-300 text-black border border-black rounded-lg focus:ring-2 focus:ring-gray-700" />
 
                 {/* Lista con Scroll */}
-                <div className="overflow-y-auto flex-grow max-h-[450px] space-y-2 pr-2">
+                <div className="overflow-y-auto flex-grow max-h-[375px] space-y-2 pr-2">
                     {clientes.filter(cliente => cliente.cedula.includes(filtro)).map((cliente) => (
                         <div key={cliente.cedula} className="p-3 bg-gray-300/80 rounded-lg flex justify-between items-center">
                             <div>
@@ -219,6 +235,11 @@ const Admin = () => {
                         </div>
                     ))}
                 </div>
+                <button 
+                  onClick={exportarExcel}
+                  className="p-2 mt-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-200">
+                  Exportar a Excel
+                </button>
             </div>
         </div>
     </div>
