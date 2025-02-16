@@ -35,14 +35,22 @@ const Admin = () => {
   };
 
   const exportarExcel = () => {
+
     const hoja = XLSX.utils.json_to_sheet(clientes);
     const libro = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(libro, hoja, "Clientes");
   
     const excelBuffer = XLSX.write(libro, { bookType: "xlsx", type: "array" });
     const blob = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+
+    // Obtener la fecha actual
+    const fecha = new Date();
+    const fechaFormateada = `${fecha.getFullYear()}-${(fecha.getMonth() + 1).toString().padStart(2, '0')}-${fecha.getDate().toString().padStart(2, '0')}`;
+
+    // Crear el nombre del archivo con la fecha
+    const nombreArchivo = `Clientes_${fechaFormateada}.xlsx`;
   
-    saveAs(blob, "Clientes.xlsx");
+    saveAs(blob, nombreArchivo);
   };
 
   /* 
@@ -51,7 +59,6 @@ const Admin = () => {
   );
   */
   
-
   const obtenerClientes = async () => {
     try {
       const response = await axios.get('http://localhost:3001/clientes');
